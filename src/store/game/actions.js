@@ -6,6 +6,7 @@ export const {
   GAME: {
     SET_CURRENT_MOVE: undefined,
     SET_SYMBOL_IN_SQUARE: undefined,
+    SET_WINNER: undefined,
     INIT: undefined,
   },
 })

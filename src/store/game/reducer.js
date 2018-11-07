@@ -9,13 +9,14 @@ import {
 } from './actions'
 
 const {
-  setCurrentMove, setSymbolInSquare, init,
+  setCurrentMove, setSymbolInSquare, setWinner, init,
 } = game
 
 const initialState = {
   currentMove: null,
   currentBoard: null,
   moveHistory: [],
+  winner: null,
 }
 
 export default handleActions({
@@ -28,10 +29,14 @@ export default handleActions({
     next.currentBoard[row][column] = mapSymbolByPlayer[state.currentMove]
     next.moveHistory.push(next.currentBoard)
   }),
+  [setWinner]: (state, action) => produce(state, next => {
+    next.winner = action.payload
+  }),
   [init]: state => produce(state, next => {
     const emptyBoard = Array(3).fill(null).map(()=>Array(3).fill(null))
 
     next.currentBoard = emptyBoard
     next.moveHistory.push(emptyBoard)
+    next.winner = null
   }),
 }, initialState)

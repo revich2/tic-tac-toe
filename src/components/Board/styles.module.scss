@@ -3,4 +3,8 @@
   border-collapse: collapse;
 
   border: 2px solid white;
+
+  &.disable {
+    pointer-events: none;
+  }
 }

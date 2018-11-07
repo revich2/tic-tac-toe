@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+import cx from 'classnames'
+
 import Square from '../../components/Square'
 
 import styles from './styles.module.scss'
@@ -26,10 +28,14 @@ class Board extends Component {
       </tr>)
 
   render() {
-    const { data } = this.props
+    const { data, disable } = this.props
+
+    const boardClasses = cx(styles.table, {
+      [styles.disable]: disable,
+    })
 
     return (
-      <table className={styles.table}>
+      <table className={boardClasses}>
         <tbody>
           {this.renderBoard(data)}
         </tbody>
