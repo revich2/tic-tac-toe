@@ -4,8 +4,8 @@ export const SymbolEnums = {
 }
 
 export const PlayerEnums = {
-  CROSSES: 1,
-  ZEROS: 2,
+  CROSSES: 'CROSSES',
+  ZEROS: 'ZEROS',
 }
 
 export const mapSymbolByPlayer = {

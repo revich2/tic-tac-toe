@@ -25,7 +25,7 @@ export default handleActions({
   }),
   [setSymbolInSquare]: (state, action) => produce(state, next => {
     const { row, column } = action.payload
-    
+
     next.currentBoard[row][column] = mapSymbolByPlayer[state.currentMove]
     next.moveHistory.push(next.currentBoard)
   }),

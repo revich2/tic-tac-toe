@@ -7,9 +7,9 @@ import Board from '../components/Board'
 
 import { actions } from '../store/game'
 
-import { PlayerEnums, mapPlayerBySymbol } from '../constants/types'
+import { PlayerEnums } from '../constants/types'
 
-import { checkWinner } from '../utils/algorithmic'
+import { randomBot } from '../services/index'
 
 import './App.scss'
 
@@ -24,31 +24,21 @@ class App extends Component {
     initBoard()
   }
 
-  shouldComponentUpdate(nextProps) {
-    const { currentBoard, setWinner } = nextProps
+  botMove = () => {
+    const { currentBoard } = this.props
 
-    const winner = checkWinner(currentBoard)
-    
-    if (winner !== null) {
-      setWinner(mapPlayerBySymbol[winner])
+    const { row, column } = randomBot.makeMove(currentBoard)
 
-      // setCurrentMove(mapPlayerBySymbol[winner])
-      // initBoard()
-    }
-
-    console.log('winner', checkWinner(currentBoard))
-
-    return true
+    this.props.makeMove(row, column)
   }
 
   onCeilClick = (row, column) => {
-    const { setCurrentMove, setSymbolInSquare, currentMove } = this.props
-    const { CROSSES, ZEROS } = PlayerEnums
-
-    setSymbolInSquare({ row, column })
-
-    const nextMover = CROSSES === currentMove ? ZEROS : CROSSES
-    setCurrentMove(nextMover)
+    this.props.makeMove(row, column, ({ winner }) => {
+      
+      if (winner === null) {
+        setTimeout(this.botMove, 100)
+      }
+    })
   }
 
   render() {
@@ -72,8 +62,9 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
+  makeMove: actions.makeMove,
   setCurrentMove: gameActions.setCurrentMove,
-  setSymbolInSquare: gameActions.setSymbolInSquare,
+  setSymbolInSquare: actions.setSymbolInSquare,
   setWinner: gameActions.setWinner,
   initBoard: gameActions.init,
 }, dispatch)

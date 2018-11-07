@@ -25,7 +25,25 @@ const getWinnerConditions = (board) => {
   return conditions
 }
 
-export const checkWinner = (board) => {
+const isFullBoard = (board) => {
+  const boardSize = board.length
+
+  let countFilled = 0
+
+  for(let i = 0; i < boardSize; i++) {
+    for(let j = 0; j < boardSize; j++) {
+      if (board[i][j] !== null) {
+        countFilled++
+      }
+    }
+  }
+
+  const countCeils = boardSize * boardSize
+
+  return countFilled === countCeils ? true : false
+}
+
+export const checkWinner = (board, currentSymbolOfMove) => {
   const arrayOfConditions = getWinnerConditions(board)
 
   let winner = null
@@ -37,6 +55,10 @@ export const checkWinner = (board) => {
       winner = condition[0]
       break
     }
+  }
+
+  if(winner === null && isFullBoard(board)) {
+    return undefined
   }
 
   return winner
